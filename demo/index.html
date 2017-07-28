@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, minimum-scale=1, initial-scale=1, user-scalable=yes">
+
+    <title>ct-building-details demo</title>
+
+    <script src="../../webcomponentsjs/webcomponents-lite.js"></script>
+
+    <link rel="import" href="../../iron-demo-helpers/demo-pages-shared-styles.html">
+    <link rel="import" href="../../iron-demo-helpers/demo-snippet.html">
+    <link rel="import" href="../ct-building-details.html">
+
+    <style is="custom-style" include="demo-pages-shared-styles">
+    </style>
+  </head>
+  <body>
+    <div class="vertical-section-container centered">
+      <h3>Basic ct-building-details demo</h3>
+      <demo-snippet>
+        <template>
+          <ct-building-details
+                  details='{
+                  "name": "asdf",
+                  "buildingType": {"id": 0, "name": "Commercial"},
+                  "rhaApplies": true,
+                  "vendingType": {"id": 0, "name": "SelfVend"},
+                  "councilMeterType": {"id": 0, "name": "Credit"},
+                  "councilMeterNumber": "asdf"}'
+                  readonly
+
+          ></ct-building-details>
+        </template>
+      </demo-snippet>
+    </div>
+  </body>
+</html>

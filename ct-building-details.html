@@ -1,0 +1,255 @@
+<link rel="import" href="../polymer/polymer.html">
+<link rel="import" href="../iron-form/iron-form.html">
+<link rel="import" href="../paper-input/paper-input.html">
+<link rel="import" href="../paper-dropdown-menu/paper-dropdown-menu.html">
+<link rel="import" href="../paper-listbox/paper-listbox.html">
+<link rel="import" href="../paper-item/paper-item.html">
+<link rel="import" href="../paper-toggle-button/paper-toggle-button.html">
+
+<!--
+`ct-building-details`
+Element for capturing new building details
+
+@demo demo/index.html
+-->
+
+<dom-module id="ct-building-details">
+  <template>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <style is="custom-style">
+      :host {
+        --paper-input-container: {
+          border-top: 1px solid #ccc;
+          border-left: 1px solid #ccc;
+          border-right: 1px solid #ccc;
+          border-bottom: none;
+          padding: 0 !important;
+          margin-bottom: 22px;
+        };
+        --paper-input-container-input: {
+          margin-left: 10px;
+        };
+        --paper-input-container-label: {
+          margin-left: 10px;
+        };
+      }
+      .main-section {
+        margin-top:20px;
+      }
+      paper-dropdown-menu.custom-dropdown {
+        width: 100%;
+        --paper-input-container: {
+          border-top:1px solid #ccc;
+          border-left:1px solid #ccc;
+          border-right:1px solid #ccc;
+          border-bottom: none;
+          padding: 0;
+          margin-bottom: 8px;
+        };
+        --paper-input-container-input: {
+          padding-left: 10px;
+        };
+      }
+    </style>
+    <div class="main-section">
+      <form is="iron-form"
+            id="form"
+            method="post"
+            disable-native-validation-ui
+            novalidate>
+        <div class="container-fluid">
+          <div class="row">
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <paper-input
+                        label="Building Name"
+                        type="text"
+                        name="name"
+                        value="[[ details.name ]]"
+                        readonly="[[ readonly ]]"
+                        required
+                        auto-validate="[[ !readonly ]]"
+                        error-message="Required">
+                </paper-input>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <template is="dom-if" if="[[ readonly ]]">
+                  <paper-input
+                          label="Building Type"
+                          value="[[ details.buildingType.name ]]"
+                          readonly>
+                  </paper-input>
+                </template>
+                <template is="dom-if" if="[[ !readonly ]]">
+                  <paper-dropdown-menu
+                          class="custom-dropdown"
+                          id="buildingTypeDropDown"
+                          name="buildingType"
+                          label="Building Type"
+                          always-float-label
+                          noink
+                          no-animations
+                          required
+                          placeholder="Please select a building type">
+                    <paper-listbox class="dropdown-content" attr-for-selected="key" selected="[[ details.buildingType.id ]]">
+                      <template is="dom-repeat" items="[[ buildingTypes ]]">
+                        <paper-item key="[[item.id]]" item="[[item]]">[[item.name]]</paper-item>
+                      </template>
+                    </paper-listbox>
+                  </paper-dropdown-menu>
+                </template>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <paper-toggle-button
+                        id="rhaAppliesToggle"
+                        label="RHA Applies"
+                        name="rhaApplies"
+                        disabled="[[ readonly ]]"
+                        checked="{{ details.rhaApplies }}">[[ _computeRhaText(details.rhaApplies) ]]
+                </paper-toggle-button>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <template is="dom-if" if="[[ readonly ]]">
+                  <paper-input
+                          label="Vending Type"
+                          value="[[ details.vendingType.name ]]"
+                          readonly>
+                  </paper-input>
+                </template>
+                <template is="dom-if" if="[[ !readonly ]]">
+                  <paper-dropdown-menu
+                          class="custom-dropdown"
+                          id="vendingTypeDropDown"
+                          name="vendingType"
+                          label="Vending Type"
+                          always-float-label
+                          noink
+                          no-animations
+                          required
+                          placeholder="Please select a vending type">
+                    <paper-listbox class="dropdown-content" attr-for-selected="key" selected="[[ details.vendingType.id ]]">
+                      <template is="dom-repeat" items="[[ vendingTypes ]]">
+                        <paper-item key="[[item.id]]" item="[[item]]">[[item.name]]</paper-item>
+                      </template>
+                    </paper-listbox>
+                  </paper-dropdown-menu>
+                </template>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <template is="dom-if" if="[[ readonly ]]">
+                  <paper-input
+                          label="Council Meter Type"
+                          value="[[ details.councilMeterType.name ]]"
+                          readonly>
+                  </paper-input>
+                </template>
+                <template is="dom-if" if="[[ !readonly ]]">
+                  <paper-dropdown-menu
+                          class="custom-dropdown"
+                          id="councilMeterTypeDropDown"
+                          name="councilMeterType"
+                          label="Council Meter Type"
+                          always-float-label
+                          noink
+                          no-animations
+                          required
+                          placeholder="Please select a council meter type">
+                    <paper-listbox class="dropdown-content" attr-for-selected="key" selected="[[ details.councilMeterType.id ]]">
+                      <template is="dom-repeat" items="[[ _councilMeterTypes ]]">
+                        <paper-item key="[[item.id]]" item="[[item]]">[[item.name]]</paper-item>
+                      </template>
+                    </paper-listbox>
+                  </paper-dropdown-menu>
+                </template>
+              </div>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+              <div class="form-group">
+                <paper-input
+                        label="Council Meter Number"
+                        type="text"
+                        name="councilMeterNumber"
+                        value="[[ details.councilMeterNumber ]]"
+                        readonly="[[ readonly ]]">
+                </paper-input>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+
+  </template>
+
+  <script>
+    Polymer({
+
+      is: 'ct-building-details',
+
+      properties: {
+        readonly: {
+          type: Boolean,
+          value: false
+        },
+        details: {
+          type: Object,
+          value: {
+            name: "",
+            buildingType: {
+              id: null,
+              name: ""
+            },
+            rhaApplies: false,
+            vendingType: {
+              id: null,
+              name: ""
+            },
+            councilMeterType: {
+              id: null,
+              name: ""
+            },
+            councilMeterNumber: ""
+          }
+        },
+        buildingTypes: Array,
+        vendingTypes: Array,
+        _councilMeterTypes: {
+          type: Array,
+          value: [{
+            id: 0,
+            name: "Credit"
+          },{
+            id: 1,
+            name: "Prepaid"
+          }]
+        }
+      },
+
+      validate: function () {
+        return this.$.form.validate();
+      },
+
+      serialize: function () {
+        var formData = this.$.form.serialize();
+        formData.buildingType = this.$.buildingTypeDropDown.selectedItem.item;
+        formData.rhaApplies = this.$.rhaAppliesToggle.checked;
+        formData.vendingType = this.$.vendingTypeDropDown.selectedItem.item;
+        formData.councilMeterType = this.$.councilMeterTypeDropDown.selectedItem.item;
+        return formData;
+      },
+
+      _computeRhaText: function () {
+        return this.$.rhaAppliesToggle.checked ? "RHA Applies" : "RHA Does Not Apply"
+      }
+
+    });
+  </script>
+</dom-module>
