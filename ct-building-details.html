@@ -239,10 +239,10 @@ Element for capturing new building details
 
       serialize: function () {
         var formData = this.$.form.serialize();
-        formData.buildingType = this.$.buildingTypeDropDown.selectedItem.item;
-        formData.rhaApplies = this.$.rhaAppliesToggle.checked;
-        formData.vendingType = this.$.vendingTypeDropDown.selectedItem.item;
-        formData.councilMeterType = this.$.councilMeterTypeDropDown.selectedItem.item;
+        formData.buildingType = this.$$('#buildingTypeDropDown').selectedItem.item;
+        formData.rhaApplies = this.$$('#rhaAppliesToggle').checked;
+        formData.vendingType = this.$$('#vendingTypeDropDown').selectedItem.item;
+        formData.councilMeterType = this.$$('#councilMeterTypeDropDown').selectedItem.item;
         return formData;
       },
 
