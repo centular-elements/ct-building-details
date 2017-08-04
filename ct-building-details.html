@@ -62,6 +62,7 @@ Element for capturing new building details
             <div class="col-sm-6 col-xs-12">
               <div class="form-group">
                 <paper-input
+                        id="buildingNameInput"
                         label="Building Name"
                         type="text"
                         name="name"
@@ -84,14 +85,15 @@ Element for capturing new building details
                 </template>
                 <template is="dom-if" if="[[ !readonly ]]">
                   <paper-dropdown-menu
-                          class="custom-dropdown"
                           id="buildingTypeDropDown"
+                          class="custom-dropdown"
                           name="buildingType"
                           label="Building Type"
                           always-float-label
                           noink
                           no-animations
                           required
+                          auto-validate
                           placeholder="Please select a building type">
                     <paper-listbox class="dropdown-content" attr-for-selected="key" selected="[[ details.buildingType.id ]]">
                       <template is="dom-repeat" items="[[ buildingTypes ]]">
@@ -124,14 +126,15 @@ Element for capturing new building details
                 </template>
                 <template is="dom-if" if="[[ !readonly ]]">
                   <paper-dropdown-menu
-                          class="custom-dropdown"
                           id="vendingTypeDropDown"
+                          class="custom-dropdown"
                           name="vendingType"
                           label="Vending Type"
                           always-float-label
                           noink
                           no-animations
                           required
+                          auto-validate
                           placeholder="Please select a vending type">
                     <paper-listbox class="dropdown-content" attr-for-selected="key" selected="[[ details.vendingType.id ]]">
                       <template is="dom-repeat" items="[[ vendingTypes ]]">
@@ -160,7 +163,6 @@ Element for capturing new building details
                           always-float-label
                           noink
                           no-animations
-                          required
                           placeholder="Please select a council meter type">
                     <paper-listbox class="dropdown-content" attr-for-selected="key" selected="[[ details.councilMeterType.id ]]">
                       <template is="dom-repeat" items="[[ _councilMeterTypes ]]">
@@ -248,8 +250,39 @@ Element for capturing new building details
 
       _computeRhaText: function () {
         return this.$.rhaAppliesToggle.checked ? "RHA Applies" : "RHA Does Not Apply"
-      }
+      },
 
+      clear: function () {
+        this.details = {
+          name: "",
+          buildingType: {
+            id: null,
+            name: ""
+          },
+          rhaApplies: false,
+          vendingType: {
+            id: null,
+            name: ""
+          },
+          councilMeterType: {
+            id: null,
+            name: ""
+          },
+          councilMeterNumber: ""
+        };
+
+        if (this.$.buildingNameInput) {
+          this.$.buildingNameInput.invalid = false;
+        }
+
+        if (this.$.buildingTypeDropDown) {
+          this.$.buildingTypeDropDown.invalid = false;
+        }
+
+        if (this.$.vendingTypeDropDown) {
+          this.$.vendingTypeDropDown.invalid = false;
+        }
+      }
     });
   </script>
 </dom-module>
