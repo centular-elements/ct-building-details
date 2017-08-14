@@ -244,7 +244,8 @@ Element for capturing new building details
         formData.buildingType = this.$$('#buildingTypeDropDown').selectedItem.item;
         formData.rhaApplies = this.$$('#rhaAppliesToggle').checked;
         formData.vendingType = this.$$('#vendingTypeDropDown').selectedItem.item;
-        formData.councilMeterType = this.$$('#councilMeterTypeDropDown').selectedItem.item;
+        var selectedCmt = this.$$('#councilMeterTypeDropDown').selectedItem;
+        formData.councilMeterType = selectedCmt ? selectedCmt.item : undefined;
         return formData;
       },
 
